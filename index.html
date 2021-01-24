@@ -48,8 +48,7 @@
                 width,
                 height,
                 color: generateRandomColor(),
-                nextColor: generateRandomColor(),
-                speed: (width * height) / 10,
+                speed: (width * height) / 15,
                 brightening: true
             })
         }
@@ -63,13 +62,6 @@
                 context.fillRect(square.x, square.y, square.width, square.height);
 
                 square.y += square.speed;
-
-                //  Fade towards the nextColor rgb, if already equal, change nextColor
-                if (square.color.red === square.nextColor.red
-                    && square.color.green === square.nextColor.green
-                    && square.color.blue === square.nextColor.blue) {
-                    square.nextColor = generateRandomColor();
-                }
 
                 //  background squares fade in and out effect
                 if (square.brightening) {

@@ -1,8 +1,8 @@
 {
-    "type": "web",
-    "file": "index.html",
-    "description":"My desktop background of epicness.",
-    "general": {
-        "supportsaudioprocessing": true
-    }
+  "type": "web",
+  "file": "index.html",
+  "description": "My desktop background of epicness.",
+  "general": {
+    "supportsaudioprocessing": true
+  }
 }

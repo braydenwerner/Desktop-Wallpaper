@@ -27,22 +27,30 @@
         canvas.height = window.innerHeight;
         document.body.appendChild(canvas);
 
-        const numSquares = 2000;
+        const numSquares = canvas.width / 2;
         let squares = [];
         let count = 0;
         let direction = 'DOWN';
 
-        const colors = ['green', 'blue', 'red', 'pink', 'yellow', 'cyan', 'white'];
+        const generateRandomColor = () => {
+            return {
+                red: Math.floor(Math.random() * 255),
+                green: Math.floor(Math.random() * 255),
+                blue: Math.floor(Math.random() * 255),
+            }
+        }
         const addSquare = () => {
-            const width = Math.floor(Math.random() * 1) + 1;
-            const height = Math.floor(Math.random() * 7 + 5);
+            const width = Math.floor(Math.random() * (canvas.width / 450)) + 1;
+            const height = Math.floor(Math.random() * (canvas.width / 150) + 15);
             squares.push({
                 x: Math.floor(Math.random() * canvas.width),
                 y: Math.floor(Math.random() * -canvas.height / 4),
                 width,
                 height,
-                color: colors[Math.floor(Math.random() * colors.length)],
-                speed: (width * height) / 2
+                color: generateRandomColor(),
+                nextColor: generateRandomColor(),
+                speed: (width * height) / 10,
+                brightening: true
             })
         }
 
@@ -51,12 +59,38 @@
             context.fillRect(0, 0, canvas.width, canvas.height);
 
             for (const square of squares) {
-                context.fillStyle = square.color;
+                context.fillStyle = `rgb(${square.color.red}, ${square.color.green}, ${square.color.blue})`;
                 context.fillRect(square.x, square.y, square.width, square.height);
+
                 square.y += square.speed;
+
+                //  Fade towards the nextColor rgb, if already equal, change nextColor
+                if (square.color.red === square.nextColor.red
+                    && square.color.green === square.nextColor.green
+                    && square.color.blue === square.nextColor.blue) {
+                    square.nextColor = generateRandomColor();
+                }
+
+                //  background squares fade in and out effect
+                if (square.brightening) {
+                    square.color.red++;
+                    square.color.green++;
+                    square.color.blue++;
+
+                    if (square.color.red > 255 && square.color.green > 255 && square.color.blue > 255)
+                        square.brightening = false;
+                } else {
+                    square.color.red--;
+                    square.color.green--;
+                    square.color.blue--;
+
+                    if (square.color.red < 0 && square.color.green < 0 && square.color.blue < 0)
+                        square.brightening = true;
+                }
 
                 if (direction === 'DOWN' && square.y > canvas.height) square.y = -square.height;
                 else if (direction === 'UP' && square.y < 0) square.y = canvas.height;
+
             }
         }
 
@@ -83,8 +117,6 @@
                     square.speed *= -1;
                 }
             }
-
-            console.log(direction);
         })
     </script>
 </body>

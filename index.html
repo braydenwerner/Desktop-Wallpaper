@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WallPaper</title>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            border: 0;
+            overflow: hidden;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        const FPS = 60;
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        document.body.appendChild(canvas);
+
+        const numSquares = 2000;
+        let squares = [];
+        let count = 0;
+
+        const colors = ['green', 'blue', 'red', 'pink', 'yellow', 'cyan', 'white'];
+        const addSquare = () => {
+            const width = Math.floor(Math.random() * 1) + 1;
+            const height = Math.floor(Math.random() * 7 + 5);
+            squares.push({
+                x: Math.floor(Math.random() * canvas.width),
+                y: Math.floor(Math.random() * -canvas.height / 4),
+                width,
+                height,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                speed: (width * height) / 2
+            })
+        }
+
+        const update = () => {
+            context.fillStyle = 'BLACK';
+            context.fillRect(0, 0, canvas.width, canvas.height);
+
+            for (const square of squares) {
+                context.fillStyle = square.color;
+                context.fillRect(square.x, square.y, square.width, square.height);
+                square.y += square.speed;
+
+                if (square.y > canvas.height) square.y = -square.width;
+            }
+        }
+
+        const init = () => {
+            //  create squares
+            for (let i = 0; i < numSquares; i++) {
+                addSquare();
+            }
+
+            console.log(squares)
+
+            //  start updating
+            setInterval(update, 1000 / FPS);
+        }
+
+        init();
+
+        window.onclick = () => {
+            count++;
+            count %= colors.length;
+
+            if (count == 7) {
+                const random = Math.floor(Math.random() * colors.length);
+                square.color = colors[random];
+            } else {
+                for (square of squares) {
+                    square.color = colors[count];
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

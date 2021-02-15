@@ -66,9 +66,8 @@ const update = () => {
         square.brightening = true
     }
 
-    if (direction === 'DOWN' && square.y > canvas.height)
-      square.y = -square.height
-    else if (direction === 'UP' && square.y < 0) square.y = canvas.height
+    if (square.speed > 0 && square.y > canvas.height) square.y = -square.height
+    else if (square.speed < 0 && square.y < 0) square.y = canvas.height
   }
 }
 

@@ -81,18 +81,8 @@ const init = () => {
 }
 init()
 
-window.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowUp' && direction !== 'UP') {
-    direction = 'UP'
-
-    for (const square of squares) {
-      square.speed *= -1
-    }
-  } else if (e.key === 'ArrowDown' && direction !== 'DOWN') {
-    direction = 'DOWN'
-
-    for (const square of squares) {
-      square.speed *= -1
-    }
+window.addEventListener('click', (e) => {
+  for (const square of squares) {
+    square.speed *= -1
   }
 })
